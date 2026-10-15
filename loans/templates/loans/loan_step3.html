@@ -1,0 +1,533 @@
+```html
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Financial Details | Loan Application</title>
+
+    <link rel="stylesheet" href="{% static 'loans/style.css' %}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f7f6;
+            color: #1f2937;
+        }
+
+        .page-wrapper {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 35px 20px 55px;
+        }
+
+        .top-heading {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .brand {
+            color: #087f5b;
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .brand span {
+            color: #d6a72c;
+        }
+
+        .top-heading h1 {
+            margin: 12px 0 8px;
+            font-size: clamp(25px, 4vw, 35px);
+            color: #123b32;
+        }
+
+        .top-heading p {
+            color: #718096;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .progress-card {
+            background: white;
+            padding: 22px;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(20, 50, 40, 0.05);
+            margin-bottom: 25px;
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 14px;
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .progress-labels .active {
+            color: #087f5b;
+            font-weight: 700;
+        }
+
+        .progress-track {
+            height: 7px;
+            background: #e6eee9;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #087f5b, #d6a72c);
+            border-radius: 20px;
+        }
+
+        .step-indicator {
+            text-align: right;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #087f5b;
+            font-weight: 700;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #e8eeea;
+            border-radius: 20px;
+            padding: 27px;
+            box-shadow: 0 8px 30px rgba(20, 50, 40, 0.06);
+        }
+
+        .card-heading {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 22px;
+        }
+
+        .heading-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e6f5ee;
+            color: #087f5b;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .heading-icon.gold {
+            background: #fff5d9;
+            color: #a87808;
+        }
+
+        .card-heading h2 {
+            margin: 0 0 5px;
+            font-size: 20px;
+            color: #163c32;
+        }
+
+        .card-heading p {
+            margin: 0;
+            font-size: 13px;
+            color: #7b8794;
+            line-height: 1.5;
+        }
+
+        .summary-list {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .summary-item {
+            padding: 15px;
+            background: #f8faf9;
+            border: 1px solid #edf1ee;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .summary-label {
+            color: #748078;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .summary-value {
+            color: #193b30;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        .amount-box {
+            background: linear-gradient(135deg, #087f5b, #075c46);
+            color: white;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 18px;
+        }
+
+        .amount-box p {
+            margin: 0 0 8px;
+            color: #d7eee4;
+            font-size: 13px;
+        }
+
+        .amount-box h3 {
+            font-size: 32px;
+            margin: 0;
+            font-weight: 800;
+            overflow-wrap: anywhere;
+        }
+
+        .amount-box small {
+            display: block;
+            color: #d7eee4;
+            margin-top: 7px;
+            font-size: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 21px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #34483f;
+            margin-bottom: 9px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #dbe4de;
+            border-radius: 11px;
+            background: #fbfcfb;
+            font-size: 15px;
+            color: #24352d;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #087f5b;
+            box-shadow: 0 0 0 3px rgba(8, 127, 91, 0.12);
+            background: white;
+        }
+
+        .field-help {
+            color: #849087;
+            font-size: 12px;
+            margin-top: 7px;
+            line-height: 1.5;
+        }
+
+        .error-message {
+            background: #fff0f0;
+            border: 1px solid #ffd1d1;
+            color: #b42318;
+            padding: 14px 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .privacy-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: #f1f8f4;
+            padding: 14px;
+            border-radius: 12px;
+            color: #476657;
+            font-size: 12px;
+            line-height: 1.6;
+            margin: 22px 0;
+        }
+
+        .privacy-note span {
+            font-size: 17px;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            min-height: 49px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            border-radius: 11px;
+            padding: 13px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-back {
+            flex: 0.8;
+            color: #34483f;
+            background: #f0f4f1;
+            border: 1px solid #e1e8e3;
+        }
+
+        .btn-submit {
+            flex: 1.4;
+            border: none;
+            color: white;
+            background: linear-gradient(135deg, #087f5b, #056044);
+            box-shadow: 0 5px 13px rgba(8, 127, 91, 0.18);
+        }
+
+        .btn-submit:hover {
+            background: #056044;
+        }
+
+        .disclaimer {
+            text-align: center;
+            color: #89938d;
+            font-size: 12px;
+            line-height: 1.7;
+            margin-top: 27px;
+        }
+
+        @media (max-width: 760px) {
+            .page-wrapper {
+                padding: 24px 14px 35px;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 21px;
+            }
+
+            .progress-card {
+                padding: 18px;
+            }
+
+            .amount-box h3 {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .button-row {
+                flex-direction: column-reverse;
+            }
+
+            .btn-back,
+            .btn-submit {
+                width: 100%;
+                flex: auto;
+            }
+
+            .summary-item {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page-wrapper">
+
+        <header class="top-heading">
+            <div class="brand">Loan<span>Bridge</span></div>
+            <h1>Complete Your Application</h1>
+            <p>Tell us about your financial situation to finish this demo application.</p>
+        </header>
+
+        <section class="progress-card">
+            <div class="progress-labels">
+                <span class="active">01 · Loan Details</span>
+                <span class="active">02 · Personal Details</span>
+                <span class="active">03 · Financial Details</span>
+            </div>
+
+            <div class="progress-track">
+                <div class="progress-fill"></div>
+            </div>
+
+            <div class="step-indicator">Step 3 of 3 · Final Step</div>
+        </section>
+
+        <div class="content-grid">
+
+            <!-- APPLICATION SUMMARY CARD -->
+            <section class="card">
+                <div class="card-heading">
+                    <div class="heading-icon gold">▤</div>
+                    <div>
+                        <h2>Application Summary</h2>
+                        <p>Your details at a glance</p>
+                    </div>
+                </div>
+
+                <div class="amount-box">
+                    <p>Requested loan amount</p>
+                    <h3>${{ application.loan_amount|default:"0" }}</h3>
+                    <small>Demo amount · Not a loan offer</small>
+                </div>
+
+                <div class="summary-list">
+                    <div class="summary-item">
+                        <span class="summary-label">Loan type</span>
+                        <span class="summary-value">
+                            {{ application.loan_type|default:"Not provided" }}
+                        </span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="summary-label">Loan term</span>
+                        <span class="summary-value">
+                            {{ application.loan_term|default:"Not provided" }}
+                        </span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="summary-label">Purpose</span>
+                        <span class="summary-value">
+                            {{ application.purpose|default:"Not provided" }}
+                        </span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="summary-label">Applicant</span>
+                        <span class="summary-value">
+                            {{ personal.first_name|default:"" }}
+                            {{ personal.last_name|default:"" }}
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FINANCIAL DETAILS CARD -->
+            <section class="card">
+                <div class="card-heading">
+                    <div class="heading-icon">▣</div>
+                    <div>
+                        <h2>Financial Details</h2>
+                        <p>Complete the final section below</p>
+                    </div>
+                </div>
+
+                {% if error %}
+                    <div class="error-message">
+                        {{ error }}
+                    </div>
+                {% endif %}
+
+                <form method="POST" action="{% url 'loan_step3' %}">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="annualIncome">Annual Income (USD)</label>
+                        <input
+                            type="number"
+                            id="annualIncome"
+                            name="annualIncome"
+                            min="0"
+                            max="100000000"
+                            step="100"
+                            placeholder="e.g. 12000"
+                            required
+                        >
+                        <div class="field-help">
+                            Enter your estimated total income for one year.
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="employmentStatus">Employment Status</label>
+                        <select
+                            id="employmentStatus"
+                            name="employmentStatus"
+                            required
+                        >
+                            <option value="">Choose your employment status</option>
+                            <option value="Employed">Employed</option>
+                            <option value="Self-employed">Self-employed</option>
+                            <option value="Unemployed">Unemployed</option>
+                            <option value="Student">Student</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="privacy-note">
+                        <span>🔒</span>
+                        <div>
+                            This is a learning project. Do not enter real sensitive
+                            financial information. Submitting this form does not
+                            create a real loan application or guarantee approval.
+                        </div>
+                    </div>
+
+                    <div class="button-row">
+                        <a href="{% url 'loan_step2_page' %}" class="btn btn-back">
+                            ← Previous
+                        </a>
+
+                        <button type="submit" class="btn btn-submit">
+                            Submit Demo →
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+        </div>
+
+        <footer class="disclaimer">
+            <p>
+                LoanBridge is a fictional educational demo and is not affiliated
+                with EcoCash or any financial institution.
+            </p>
+            <p>© 2026 LoanBridge · Learning project only</p>
+        </footer>
+
+    </main>
+</body>
+</html>
+```

@@ -1,0 +1,227 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#087a49">
+
+    <title>Loan Application | EcoCash Demo</title>
+
+    <link rel="stylesheet" href="{% static 'loans/style.css' %}">
+    <script src="{% static 'loans/calculator.js' %}" defer></script>
+</head>
+<body>
+    <div class="app-container">
+
+        <header class="header">
+            <a href="{% url 'home' %}" class="logo" aria-label="Demo home">
+                <span class="logo-eco">Eco</span><span class="logo-cash">Cash</span>
+            </a>
+
+            <span class="demo-badge">DEMO</span>
+
+            <button class="menu-btn"
+                    aria-label="Toggle menu"
+                    aria-expanded="false"
+                    aria-controls="site-menu"
+                    type="button">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="site-menu" id="site-menu" hidden>
+                <a href="#calculator">Loan calculator</a>
+                <a href="#features">Features</a>
+                <a href="#disclaimer">Important information</a>
+                <a href="{% url 'loan_step1' %}">Loan application</a>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            <div class="container">
+
+                <section class="hero">
+                    <span class="eyebrow">SIMPLE · CLEAR · FLEXIBLE</span>
+
+                    <h1 class="title">Get Your Loan Approved Fast</h1>
+
+                    <p class="subtitle">
+                        Explore sample repayments with our interactive loan calculator.
+                    </p>
+                </section>
+
+                <section class="calculator" id="calculator">
+
+                    <div class="calculator-heading">
+                        <div>
+                            <span class="section-kicker">PLAN YOUR REPAYMENTS</span>
+                            <h2 class="calculator-title">Loan Calculator</h2>
+                        </div>
+
+                        <span class="calculator-icon">↗</span>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-header">
+                            <label class="input-label" for="loan-amount">
+                                Loan Amount
+                            </label>
+
+                            <output class="input-value" id="amount-value"
+                                    for="loan-amount">$5,000</output>
+                        </div>
+
+                        <input
+                            id="loan-amount"
+                            class="slider"
+                            type="range"
+                            min="100"
+                            max="5000"
+                            step="100"
+                            value="5000"
+                        >
+
+                        <div class="range-labels">
+                            <span>$100</span>
+                            <span>$5,000</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-header">
+                            <label class="input-label" for="loan-term">
+                                Loan Term
+                            </label>
+
+                            <output class="input-value" id="term-value"
+                                    for="loan-term">12 months</output>
+                        </div>
+
+                        <input
+                            id="loan-term"
+                            class="slider"
+                            type="range"
+                            min="6"
+                            max="60"
+                            step="6"
+                            value="12"
+                        >
+
+                        <div class="range-labels">
+                            <span>6 months</span>
+                            <span>60 months</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-header">
+                            <label class="input-label" for="interest-rate">
+                                Illustrative annual interest
+                            </label>
+
+                            <output class="input-value" id="rate-value"
+                                    for="interest-rate">8%</output>
+                        </div>
+
+                        <input
+                            id="interest-rate"
+                            class="slider"
+                            type="range"
+                            min="0"
+                            max="30"
+                            step="1"
+                            value="8"
+                        >
+
+                        <div class="range-labels">
+                            <span>0%</span>
+                            <span>30%</span>
+                        </div>
+                    </div>
+
+                    <div class="payment-box">
+                        <div>
+                            <span class="payment-label">
+                                Estimated monthly payment
+                            </span>
+
+                            <p class="payment-note">
+                                Illustrative estimate only
+                            </p>
+                        </div>
+
+                        <output class="payment-amount" id="monthly-payment">
+                            $435.00
+                        </output>
+                    </div>
+
+                    <p class="calculation-note" id="calculation-note">
+                        Estimate excludes fees and other charges.
+                    </p>
+
+                </section>
+
+                <!-- UPDATED: Opens the loan application page -->
+                <a href="{% url 'loan_step1' %}" class="apply-btn">
+                    EXPLORE NEXT STEPS <span>→</span>
+                </a>
+
+                <p class="apply-note">
+                    Demo only — this page does not submit a real loan application.
+                </p>
+
+                <section class="features" id="features">
+
+                    <article class="feature">
+                        <div class="feature-icon">⚡</div>
+                        <h3 class="feature-title">Quick to Explore</h3>
+                        <p class="feature-subtitle">
+                            Adjust your figures instantly
+                        </p>
+                    </article>
+
+                    <article class="feature">
+                        <div class="feature-icon">◉</div>
+                        <h3 class="feature-title">Clear Estimates</h3>
+                        <p class="feature-subtitle">
+                            See example repayments
+                        </p>
+                    </article>
+
+                    <article class="feature">
+                        <div class="feature-icon">🔒</div>
+                        <h3 class="feature-title">Privacy Matters</h3>
+                        <p class="feature-subtitle">
+                            No financial details requested
+                        </p>
+                    </article>
+
+                </section>
+
+                <section class="disclaimer" id="disclaimer">
+                    <h2>Before you borrow</h2>
+
+                    <p>
+                        This is a learning project. The displayed figures are
+                        estimates, not a loan offer or a promise of approval.
+                        Actual interest, fees, eligibility and repayment terms
+                        depend on a real lender's published terms.
+                    </p>
+                </section>
+
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>© 2026 Loan Calculator Demo</p>
+            <p>
+                Independent educational project · Not an official EcoCash service
+            </p>
+        </footer>
+
+    </div>
+</body>
+</html>

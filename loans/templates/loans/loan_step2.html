@@ -1,0 +1,701 @@
+```html
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Personal Details | LoanBridge</title>
+
+    <link rel="stylesheet" href="{% static 'loans/style.css' %}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f7f7f2;
+            color: #20372e;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 18px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 920px;
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            background: #ffffff;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 65px rgba(31, 57, 44, 0.10);
+            border: 1px solid #e9ece4;
+        }
+
+        /* LEFT INTRODUCTION PANEL */
+
+        .intro-panel {
+            background:
+                radial-gradient(circle at top left, rgba(212, 177, 91, 0.16), transparent 35%),
+                linear-gradient(150deg, #123d30, #09291f);
+            color: white;
+            padding: 45px 34px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro-panel::after {
+            content: "";
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            border: 1px solid rgba(230, 202, 131, 0.19);
+            border-radius: 50%;
+            right: -110px;
+            bottom: 75px;
+            box-shadow:
+                0 0 0 25px rgba(230, 202, 131, 0.035),
+                0 0 0 50px rgba(230, 202, 131, 0.025);
+            pointer-events: none;
+        }
+
+        .brand {
+            color: #ffffff;
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+        }
+
+        .brand span {
+            color: #e0bd68;
+        }
+
+        .brand-caption {
+            color: #b6c8be;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 7px;
+        }
+
+        .intro-content {
+            position: relative;
+            z-index: 1;
+            margin: 60px 0;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            padding: 8px 12px;
+            border: 1px solid rgba(226, 199, 133, 0.35);
+            border-radius: 30px;
+            color: #e6cb87;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 23px;
+        }
+
+        .intro-content h2 {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(30px, 3vw, 42px);
+            font-weight: 400;
+            line-height: 1.18;
+            letter-spacing: -0.7px;
+            margin: 0 0 18px;
+        }
+
+        .intro-content h2 em {
+            color: #e2c16f;
+            font-weight: 400;
+        }
+
+        .intro-content p {
+            color: #c3d2c9;
+            font-size: 14px;
+            line-height: 1.9;
+            margin: 0;
+        }
+
+        .benefit-list {
+            list-style: none;
+            padding: 0;
+            margin: 27px 0 0;
+        }
+
+        .benefit-list li {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 16px;
+            color: #e0e9e3;
+            font-size: 13px;
+        }
+
+        .benefit-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(225, 193, 111, 0.14);
+            color: #e2c16f;
+            flex-shrink: 0;
+        }
+
+        .intro-footer {
+            position: relative;
+            z-index: 1;
+            border-top: 1px solid rgba(255, 255, 255, 0.13);
+            padding-top: 20px;
+            color: #a8beb2;
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        /* RIGHT FORM PANEL */
+
+        .form-panel {
+            padding: 43px 42px;
+        }
+
+        .form-header {
+            margin-bottom: 28px;
+        }
+
+        .step-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #087f5b;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            margin-bottom: 12px;
+        }
+
+        .step-label::before {
+            content: "";
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: #c9a64f;
+        }
+
+        .form-title {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 32px;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+            color: #183b2e;
+            font-weight: 400;
+            margin: 0 0 10px;
+        }
+
+        .form-subtitle {
+            color: #78847c;
+            font-size: 13px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .progress-area {
+            margin-bottom: 30px;
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            color: #78847c;
+            font-size: 11px;
+        }
+
+        .progress-top strong {
+            color: #087f5b;
+        }
+
+        .progress-track {
+            height: 5px;
+            border-radius: 10px;
+            background: #e9eee9;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 66.666%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #087f5b, #d5b15d);
+        }
+
+        .progress-indicator {
+            display: flex;
+            gap: 7px;
+            margin-top: 13px;
+        }
+
+        .progress-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #dce4dd;
+        }
+
+        .progress-dot.active {
+            background: #087f5b;
+        }
+
+        .progress-dot.current {
+            outline: 3px solid #d8eee3;
+        }
+
+        .form-error {
+            background: #fff2f0;
+            border: 1px solid #f4d2ce;
+            color: #a83227;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 13px;
+            margin: 0 0 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            min-width: 0;
+            margin-bottom: 19px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #334c40;
+            margin-bottom: 9px;
+        }
+
+        .form-input {
+            display: block;
+            width: 100%;
+            min-width: 0;
+            height: 48px;
+            padding: 0 14px;
+            border: 1px solid #dfe6df;
+            border-radius: 10px;
+            background: #fafbf8;
+            color: #263a30;
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+
+        .form-input::placeholder {
+            color: #a1aaa3;
+        }
+
+        .form-input:focus {
+            background: #ffffff;
+            border-color: #178263;
+            box-shadow: 0 0 0 3px rgba(8, 127, 91, 0.09);
+        }
+
+        .phone-row {
+            display: flex;
+            gap: 9px;
+            align-items: stretch;
+        }
+
+        .country-code {
+            min-width: 66px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #dfe6df;
+            background: #f0f5f0;
+            border-radius: 10px;
+            color: #254d3b;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .phone-input {
+            flex: 1;
+        }
+
+        .form-help {
+            display: block;
+            margin-top: 8px;
+            color: #8b958e;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .form-help strong {
+            color: #5c7164;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 12px;
+            margin-top: 29px;
+        }
+
+        .previous-btn,
+        .next-btn {
+            min-height: 48px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            transition: transform 0.2s, background 0.2s;
+            cursor: pointer;
+        }
+
+        .previous-btn {
+            flex: 0.8;
+            border: 1px solid #dfe6df;
+            background: #ffffff;
+            color: #506358;
+        }
+
+        .next-btn {
+            flex: 1.4;
+            border: 1px solid #087f5b;
+            background: #087f5b;
+            color: #ffffff;
+            box-shadow: 0 6px 15px rgba(8, 127, 91, 0.15);
+        }
+
+        .previous-btn:hover,
+        .next-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .previous-btn:hover {
+            background: #f5f7f4;
+        }
+
+        .next-btn:hover {
+            background: #066b4d;
+        }
+
+        .demo-notice {
+            text-align: center;
+            color: #8a948c;
+            font-size: 10px;
+            line-height: 1.8;
+            margin: 23px 0 0;
+        }
+
+        .demo-notice strong {
+            color: #526c5b;
+        }
+
+        @media (max-width: 760px) {
+            .main-content {
+                padding: 20px 13px;
+                align-items: flex-start;
+            }
+
+            .container {
+                max-width: 520px;
+                grid-template-columns: 1fr;
+                border-radius: 19px;
+            }
+
+            .intro-panel {
+                padding: 25px 25px 22px;
+            }
+
+            .intro-content {
+                margin: 30px 0;
+            }
+
+            .intro-content h2 {
+                font-size: 32px;
+                max-width: 360px;
+            }
+
+            .intro-content p {
+                max-width: 400px;
+            }
+
+            .benefit-list {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 5px 12px;
+            }
+
+            .benefit-list li {
+                font-size: 11px;
+                margin-bottom: 8px;
+            }
+
+            .intro-footer {
+                margin-top: 12px;
+            }
+
+            .form-panel {
+                padding: 29px 25px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .form-title {
+                font-size: 29px;
+            }
+
+            .benefit-list {
+                grid-template-columns: 1fr;
+            }
+
+            .button-container {
+                flex-direction: column-reverse;
+            }
+
+            .previous-btn,
+            .next-btn {
+                width: 100%;
+                min-height: 47px;
+                flex: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="main-content">
+        <div class="container">
+
+            <!-- LEFT INTRODUCTION PANEL -->
+            <aside class="intro-panel">
+                <div>
+                    <div class="brand">Loan<span>Bridge</span></div>
+                    <div class="brand-caption">Your financial journey</div>
+                </div>
+
+                <div class="intro-content">
+                    <div class="eyebrow">A little about you</div>
+
+                    <h2>
+                        Every journey begins with
+                        <em>understanding.</em>
+                    </h2>
+
+                    <p>
+                        Add your personal details to continue your demo
+                        loan application. You're making progress, one step
+                        at a time.
+                    </p>
+
+                    <ul class="benefit-list">
+                        <li>
+                            <span class="benefit-icon">✓</span>
+                            Simple application process
+                        </li>
+                        <li>
+                            <span class="benefit-icon">✓</span>
+                            Clear application steps
+                        </li>
+                        <li>
+                            <span class="benefit-icon">✓</span>
+                            Modern, easy-to-use design
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="intro-footer">
+                    <strong>LOANBRIDGE · DEMO PROJECT</strong><br>
+                    An educational interface, not a financial service.
+                </div>
+            </aside>
+
+            <!-- RIGHT FORM PANEL -->
+            <section class="form-panel">
+
+                <header class="form-header">
+                    <div class="step-label">Personal information</div>
+
+                    <h1 class="form-title">Let's get acquainted.</h1>
+
+                    <p class="form-subtitle">
+                        Enter your contact details below to continue to
+                        the final step.
+                    </p>
+                </header>
+
+                <div class="progress-area">
+                    <div class="progress-top">
+                        <span>Application progress</span>
+                        <strong>Step 2 of 3</strong>
+                    </div>
+
+                    <div class="progress-track">
+                        <div class="progress-fill"></div>
+                    </div>
+
+                    <div class="progress-indicator" aria-label="Step 2 of 3">
+                        <div class="progress-dot active"></div>
+                        <div class="progress-dot active current"></div>
+                        <div class="progress-dot"></div>
+                    </div>
+                </div>
+
+                {% if error %}
+                    <p class="form-error" role="alert">{{ error }}</p>
+                {% endif %}
+
+                <form action="{% url 'personal_details' %}" method="post">
+                    {% csrf_token %}
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="firstName">
+                                First name
+                            </label>
+
+                            <input
+                                id="firstName"
+                                name="firstName"
+                                placeholder="e.g. Alex"
+                                class="form-input"
+                                type="text"
+                                maxlength="60"
+                                autocomplete="given-name"
+                                value="{{ form_data.firstName|default:'' }}"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="lastName">
+                                Last name
+                            </label>
+
+                            <input
+                                id="lastName"
+                                name="lastName"
+                                placeholder="e.g. Morgan"
+                                class="form-input"
+                                type="text"
+                                maxlength="60"
+                                autocomplete="family-name"
+                                value="{{ form_data.lastName|default:'' }}"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="email">
+                            Email address
+                        </label>
+
+                        <input
+                            id="email"
+                            name="email"
+                            placeholder="alex@example.com"
+                            class="form-input"
+                            type="email"
+                            maxlength="254"
+                            autocomplete="email"
+                            value="{{ form_data.email|default:'' }}"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="phoneNumber">
+                            Phone number
+                        </label>
+
+                        <div class="phone-row">
+                            <div class="country-code" aria-label="Country code">
+                                +263
+                            </div>
+
+                            <input
+                                id="phoneNumber"
+                                name="phoneNumber"
+                                placeholder="123456789"
+                                class="form-input phone-input"
+                                type="tel"
+                                inputmode="numeric"
+                                pattern="[0-9]{9,10}"
+                                minlength="9"
+                                maxlength="10"
+                                autocomplete="tel-national"
+                                value="{{ form_data.phoneNumber|default:'' }}"
+                                aria-describedby="phone-help"
+                                required
+                            >
+                        </div>
+
+                        <small class="form-help" id="phone-help">
+                            Enter 9–10 digits after the country code.
+                            Use fictional details for this demo.
+                        </small>
+                    </div>
+
+                    <div class="button-container">
+                        <a
+                            href="{% url 'loan_step1' %}"
+                            class="previous-btn"
+                        >
+                            ← PREVIOUS
+                        </a>
+
+                        <button type="submit" class="next-btn">
+                            CONTINUE TO STEP 3 →
+                        </button>
+                    </div>
+
+                    <p class="demo-notice">
+                        <strong>Educational demo only.</strong>
+                        Do not enter real personal or contact details.
+                        LoanBridge is fictional and is not an official
+                        EcoCash service.
+                    </p>
+                </form>
+
+            </section>
+        </div>
+    </main>
+</body>
+</html>
+```

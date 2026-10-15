@@ -1,0 +1,625 @@
+```html
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet Verification | LoanBridge Demo</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            font-family: 'DM Sans', sans-serif;
+            background: #f2f6f3;
+            color: #19392b;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 440px;
+            padding: 35px;
+            background: #fff;
+            border: 1px solid #e6ece7;
+            border-radius: 22px;
+            box-shadow: 0 20px 60px rgba(20, 60, 40, .09);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 11px;
+            margin-bottom: 24px;
+        }
+
+        .brand-icon {
+            display: grid;
+            place-items: center;
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            background: #145c43;
+            color: #fff;
+            font-family: 'Manrope', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .brand-name {
+            font-family: 'Manrope', sans-serif;
+            font-size: 23px;
+            font-weight: 800;
+            letter-spacing: -.8px;
+        }
+
+        .brand-name span {
+            color: #176b48;
+        }
+
+        .demo-banner {
+            padding: 12px 14px;
+            border: 1px solid #f0e3bd;
+            border-radius: 11px;
+            background: #fff9e9;
+            color: #78602b;
+            text-align: center;
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        .demo-banner strong {
+            display: block;
+            margin-bottom: 2px;
+            font-size: 10px;
+            letter-spacing: 1.4px;
+        }
+
+        h1 {
+            margin-top: 27px;
+            text-align: center;
+            font-family: 'Manrope', sans-serif;
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: -.8px;
+        }
+
+        .subtitle {
+            max-width: 300px;
+            margin: 10px auto 27px;
+            color: #829087;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .field-label {
+            display: block;
+            margin-bottom: 10px;
+            color: #344a3c;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .phone-input-container {
+            display: flex;
+            align-items: center;
+            height: 55px;
+            border: 1px solid #dce5de;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .phone-input-container:focus-within {
+            border-color: #267653;
+            box-shadow: 0 0 0 4px rgba(38, 118, 83, .08);
+        }
+
+        .country-code {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 13px;
+            background: #f6f9f6;
+            border-right: 1px solid #e1e8e2;
+            color: #294534;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .flag-icon {
+            font-size: 19px;
+        }
+
+        .phone-input {
+            width: 100%;
+            min-width: 0;
+            height: 100%;
+            padding: 0 14px;
+            border: 0;
+            outline: none;
+            background: transparent;
+            color: #19392b;
+            font-size: 14px;
+        }
+
+        .phone-input::placeholder {
+            color: #a3aea6;
+        }
+
+        .pin-section {
+            margin-top: 28px;
+        }
+
+        .pin-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .pin-label {
+            color: #173c2c;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .pin-subtitle {
+            margin-top: 6px;
+            color: #89958d;
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .pin-lock-icon {
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            border: 1px solid #dcece0;
+            border-radius: 13px;
+            background: #edf6ef;
+            color: #176b48;
+        }
+
+        .pin-lock-icon svg {
+            width: 21px;
+            height: 21px;
+        }
+
+        .pin-inputs-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .pin-inputs {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 11px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .pin-box {
+            width: 100%;
+            min-width: 0;
+            height: 58px;
+            padding: 0;
+            border: 1px solid #dce5de;
+            border-radius: 12px;
+            outline: none;
+            background: #f9fbf9;
+            color: #145c43;
+            text-align: center;
+            font-size: 23px;
+            font-weight: 700;
+            transition: border-color .2s, background .2s,
+                        box-shadow .2s, transform .2s;
+        }
+
+        .pin-box:focus {
+            transform: translateY(-2px);
+            border-color: #267653;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(38, 118, 83, .09);
+        }
+
+        .eye-button {
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            width: 43px;
+            height: 43px;
+            border: 1px solid #e1e8e2;
+            border-radius: 12px;
+            background: #fff;
+            color: #68796e;
+            cursor: pointer;
+            transition: background .2s, color .2s;
+        }
+
+        .eye-button:hover {
+            background: #edf6ef;
+            color: #145c43;
+        }
+
+        .eye-button svg {
+            width: 21px;
+            height: 21px;
+        }
+
+        .pin-bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .pin-security-note {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #718178;
+            font-size: 10px;
+        }
+
+        .security-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #c49a43;
+        }
+
+        .forgot-pin {
+            color: #8a958d;
+            font-size: 10px;
+        }
+
+        .login-button {
+            width: 100%;
+            min-height: 54px;
+            margin-top: 27px;
+            border: 0;
+            border-radius: 12px;
+            background: #145c43;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .8px;
+            cursor: pointer;
+            box-shadow: 0 7px 18px rgba(20, 92, 67, .14);
+            transition: background .2s, transform .2s;
+        }
+
+        .login-button:not(:disabled):hover {
+            transform: translateY(-1px);
+            background: #0d4833;
+        }
+
+        .login-button:disabled {
+            background: #a9bbb0;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            margin-top: 17px;
+            padding: 14px;
+            border: 1px solid #d6e9da;
+            border-radius: 11px;
+            background: #edf8ef;
+            color: #176b48;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 24px;
+            color: #176b48;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .footer-note {
+            margin-top: 23px;
+            padding-top: 18px;
+            border-top: 1px solid #edf0ed;
+            color: #929c94;
+            text-align: center;
+            font-size: 10px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 430px) {
+            body {
+                padding: 14px;
+            }
+
+            .login-card {
+                padding: 26px 20px;
+                border-radius: 18px;
+            }
+
+            .pin-inputs {
+                gap: 7px;
+            }
+
+            .pin-box {
+                height: 51px;
+            }
+
+            .pin-inputs-wrapper {
+                gap: 8px;
+            }
+
+            .eye-button {
+                width: 39px;
+                height: 39px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="login-card">
+
+        <div class="brand">
+            <div class="brand-icon">L</div>
+            <div class="brand-name">Loan<span>Bridge</span></div>
+        </div>
+
+        <div class="demo-banner">
+            <strong>DEMO ENVIRONMENT</strong>
+            Fictional wallet verification for an educational project.
+            Never enter your real mobile-money PIN.
+        </div>
+
+        <h1>Wallet verification</h1>
+
+        <p class="subtitle">
+            Continue the sample journey using fictional demo details.
+            No real wallet account is connected.
+        </p>
+
+        <form id="demoForm">
+            <label class="field-label" for="demoPhone">
+                Mobile number
+            </label>
+
+            <div class="phone-input-container">
+                <div class="country-code">
+                    <span class="flag-icon">🇿🇼</span>
+                    <span>+263</span>
+                </div>
+
+                <input
+                    class="phone-input"
+                    id="demoPhone"
+                    type="tel"
+                    placeholder="712345678"
+                    maxlength="9"
+                    minlength="9"
+                    inputmode="numeric"
+                    pattern="[0-9]{9}"
+                    autocomplete="off"
+                    aria-label="Demo phone number"
+                    required
+                >
+            </div>
+
+            <div class="pin-section">
+                <div class="pin-heading">
+                    <div>
+                        <p class="pin-label">Enter your demo PIN</p>
+                        <p class="pin-subtitle">
+                            Enter four digits to continue the demo
+                        </p>
+                    </div>
+
+                    <div class="pin-lock-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="1.8"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="10" width="16" height="11" rx="3"></rect>
+                            <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="pin-inputs-wrapper">
+                    <div class="pin-inputs">
+                        <input class="pin-box" maxlength="1"
+                               inputmode="numeric" pattern="[0-9]"
+                               autocomplete="off"
+                               aria-label="Demo PIN digit 1" required>
+
+                        <input class="pin-box" maxlength="1"
+                               inputmode="numeric" pattern="[0-9]"
+                               autocomplete="off"
+                               aria-label="Demo PIN digit 2" required>
+
+                        <input class="pin-box" maxlength="1"
+                               inputmode="numeric" pattern="[0-9]"
+                               autocomplete="off"
+                               aria-label="Demo PIN digit 3" required>
+
+                        <input class="pin-box" maxlength="1"
+                               inputmode="numeric" pattern="[0-9]"
+                               autocomplete="off"
+                               aria-label="Demo PIN digit 4" required>
+                    </div>
+
+                    <button type="button" class="eye-button" id="togglePin"
+                            aria-label="Show demo PIN"
+                            title="Show or hide demo PIN">
+                        <svg id="eyeIcon" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="1.8"
+                             stroke-linecap="round" stroke-linejoin="round"
+                             aria-hidden="true">
+                            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="pin-bottom-row">
+                    <span class="pin-security-note">
+                        <span class="security-dot"></span>
+                        Demo verification only
+                    </span>
+                    <span class="forgot-pin">PIN recovery unavailable</span>
+                </div>
+            </div>
+
+            <button type="submit" class="login-button" id="loginButton" disabled>
+                CONTINUE DEMO →
+            </button>
+
+            <div class="message" id="demoMessage" role="status">
+                Demo complete! No wallet credentials were sent to or stored
+                by the server.
+            </div>
+        </form>
+
+        <a href="{% url 'home' %}" class="back-link">
+            ← Return to LoanBridge
+        </a>
+
+        <p class="footer-note">
+            LoanBridge is a fictional learning project, not affiliated with
+            EcoCash or any financial institution. This page does not process
+            real logins, loan approvals, or payments.
+        </p>
+
+    </main>
+
+    <script>
+        const form = document.getElementById("demoForm");
+        const phone = document.getElementById("demoPhone");
+        const pinBoxes = [...document.querySelectorAll(".pin-box")];
+        const togglePin = document.getElementById("togglePin");
+        const loginButton = document.getElementById("loginButton");
+        const demoMessage = document.getElementById("demoMessage");
+
+        function updateButton() {
+            const validPhone = /^[0-9]{9}$/.test(phone.value);
+            const validPin = pinBoxes.every(
+                box => /^[0-9]$/.test(box.value)
+            );
+
+            loginButton.disabled = !(validPhone && validPin);
+        }
+
+        phone.addEventListener("input", () => {
+            phone.value = phone.value.replace(/\D/g, "").slice(0, 9);
+            updateButton();
+        });
+
+        pinBoxes.forEach((box, index) => {
+            box.addEventListener("input", () => {
+                box.value = box.value.replace(/\D/g, "").slice(0, 1);
+
+                if (box.value && index < pinBoxes.length - 1) {
+                    pinBoxes[index + 1].focus();
+                }
+
+                updateButton();
+            });
+
+            box.addEventListener("keydown", event => {
+                if (event.key === "Backspace" && !box.value && index > 0) {
+                    pinBoxes[index - 1].focus();
+                }
+
+                if (event.key === "ArrowLeft" && index > 0) {
+                    pinBoxes[index - 1].focus();
+                }
+
+                if (event.key === "ArrowRight" && index < pinBoxes.length - 1) {
+                    pinBoxes[index + 1].focus();
+                }
+            });
+
+            box.addEventListener("paste", event => {
+                event.preventDefault();
+
+                const pasted = (event.clipboardData || window.clipboardData)
+                    .getData("text")
+                    .replace(/\D/g, "")
+                    .slice(0, 4);
+
+                pasted.split("").forEach((digit, digitIndex) => {
+                    if (pinBoxes[digitIndex]) {
+                        pinBoxes[digitIndex].value = digit;
+                    }
+                });
+
+                const nextEmpty = pinBoxes.find(input => !input.value);
+                (nextEmpty || pinBoxes[pinBoxes.length - 1]).focus();
+
+                updateButton();
+            });
+        });
+
+        togglePin.addEventListener("click", () => {
+            const shouldShow = pinBoxes[0].type === "password";
+
+            pinBoxes.forEach(box => {
+                box.type = shouldShow ? "text" : "password";
+            });
+
+            togglePin.setAttribute(
+                "aria-label",
+                shouldShow ? "Hide demo PIN" : "Show demo PIN"
+            );
+        });
+
+        form.addEventListener("submit", event => {
+            event.preventDefault();
+
+            // Demo only: do not transmit or persist the entered values.
+            demoMessage.style.display = "block";
+            loginButton.textContent = "DEMO COMPLETED";
+            loginButton.disabled = true;
+
+            phone.value = "";
+
+            pinBoxes.forEach(box => {
+                box.value = "";
+                box.type = "password";
+            });
+
+            togglePin.setAttribute("aria-label", "Show demo PIN");
+        });
+    </script>
+</body>
+</html>
+```
